@@ -8,7 +8,7 @@ import {
 export default function App() {
   return (
     <header>
-        hi
+        hi and hello
       <SignedOut>
         <SignInButton />
       </SignedOut>

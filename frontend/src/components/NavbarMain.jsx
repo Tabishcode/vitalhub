@@ -8,10 +8,7 @@ const NavbarMain = () => {
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
 
-  // Toggle dropdown visibility
-  const toggleDropdown = () => {
-    setDropdownVisible((prev) => !prev);
-  };
+
 
   // Close dropdown if clicked outside of it
   const handleClickOutside = (event) => {

@@ -1,9 +1,14 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { useUser } from "@clerk/clerk-react";
+import { useNavigate } from "react-router";
+
 
 const initialFoodData = {};
 
 const FoodTimeTable = () => {
+  const navigate = useNavigate();
+  const {user} = useUser()
   const [selectedDay, setSelectedDay] = useState("Monday");
   const [foodData, setFoodData] = useState(initialFoodData);
 
@@ -236,7 +241,8 @@ const FoodTimeTable = () => {
         <h1 className="text-2xl font-bold text-gray-800 text-center mb-4">
           Weekly Food TimeTable
         </h1>
-
+        {user.id}
+        <button className="bg-gray-600 px-4 py-1 rounded-lg text-white" onClick={()=> navigate("/fooddashboard")}>Back</button>
         {/* Buttons for days and add food */}
         <div className="flex justify-center space-x-2 mb-4">
           {Object.keys(foodData).map((day) => (

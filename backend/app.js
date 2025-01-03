@@ -6,7 +6,6 @@ const cors = require("cors");
 require("dotenv").config();
 
 let User = require("./models/user");
-let Password = require("./models/password");
 let Food = require("./models/food");
 const articleRouter = require("./routes/articles.js");
 const userRouter = require("./routes/user.js");
@@ -33,16 +32,7 @@ async function main() {
 
 // Routes
 app.use("/api", foodRoutes);
-app.get("/passwords", async (req, res) => {
-  let u = mongoose.model("user", new mongoose.Schema({}));
-  let d = await u.find();
-  let passwords = await Password.find();
-  res.json(d);
-});
-// app.get('/users', async (req, res) => {
-//     let users = await User.find({}).select('username email hash salt');;
-//     res.json(users);
-// });
+
 
 const ExerciseLog = require("./models/exerciseLog.js");
 

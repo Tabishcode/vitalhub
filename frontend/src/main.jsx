@@ -14,6 +14,7 @@ import ExpensesDashboard from "./pages/ExpensesDashboard.jsx";
 import "./index.css";
 import "./style.css";
 
+
 // Your Clerk publishable key
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 

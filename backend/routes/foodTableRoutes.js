@@ -1,5 +1,4 @@
 const express = require("express");
-const FoodItem = require("../models/FoodItem");
 
 const router = express.Router();
 
@@ -14,11 +13,30 @@ const validDays = [
 ];
 
 // Initialize the database
+
+const TimeTable = require("../models/TimeTable"); // Update with the correct path to your model
+
 router.post("/initialize-food", async (req, res) => {
+  const { clerkId } = req.body;
+
+  if (!clerkId) {
+    return res.status(400).json({ error: "clerkId is required" });
+  }
+
+  const validDays = [
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+    "Sunday",
+  ];
   const mealTypes = ["Breakfast", "Lunch", "Dinner", "Snacks"];
   const entries = [];
 
   try {
+    // Create the default time table entries
     validDays.forEach((day) => {
       mealTypes.forEach((mealType) => {
         entries.push({
@@ -26,22 +44,35 @@ router.post("/initialize-food", async (req, res) => {
           mealType,
           name: [],
           calories: [],
+          proteins: [],
+          carbs: [],
           fats: [],
-          protein: [],
           sugars: [],
         });
       });
     });
 
-    await FoodItem.insertMany(entries);
-    res
-      .status(201)
-      .json({ message: "Food items initialized successfully", data: entries });
+    // Create a new document with the clerkId and time table entries
+    const timeTable = new TimeTable({
+      clerkId,
+      timeTable: entries,
+    });
+
+    // Save to the database
+    await timeTable.save();
+
+    res.status(201).json({
+      message: "Time table initialized successfully",
+      data: timeTable,
+    });
   } catch (error) {
-    console.error("Error initializing food items:", error);
-    res.status(500).json({ error: "Failed to initialize food items." });
+    console.error("Error initializing time table:", error);
+    res.status(500).json({ error: "Failed to initialize time table." });
   }
 });
+
+module.exports = router;
+
 
 // router.post("/add-food", async (req, res) => {
 //   const { day, mealType, name, calories, fats, protein, sugars } = req.body;
